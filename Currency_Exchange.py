@@ -1,25 +1,16 @@
 import requests
+link = requests.get("https://api.nbp.pl/api/exchangerates/tables/A/")
+response = link.json()
+print(response)
 
-req = requests.get("https://api.nbp.pl/api/exchangerates/tables/A/")
-print(req.status_code)
-
-print(req.headers)
-
-print(req.text)
-
-#lista, lista, słownik
+for rate in response[0]['rates']:
+    print(f'Currency rate for {rate["code"]} is {rate["mid"]} PLN.')
 
 
-rates = req.text[74:-3]
-print(rates)
+quantity = int(input('How much you would like to convert?'))
+currency = input('In what currency you have got money?')
 
-res = eval(rates)
-print(res)
-
-for res[1]['code'] in res:
-    print(f"Currency rate for {res[1]['code']['code']} is {res[1]['code']['mid']} PLN.")
-
-how_much = input('How much you would like to convert?')
-from_currency = input('In what currency you have got money?')
-to_currency = input('To what currency you would like to exchange?')
-
+for rate in response[0]['rates']:
+    if currency == rate["code"]:
+        result = quantity * float(rate["mid"])
+        print(f'You wil get {result} PLN.')
